@@ -18,12 +18,14 @@ body, html {
     height: 100%;
     display: none;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transform: scale(0.98);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page.active {
     display: block;
     opacity: 1;
+    transform: scale(1);
     z-index: 5;
 }
 
@@ -64,12 +66,17 @@ body, html {
     background: radial-gradient(circle, #ff007f 0%, #b5179e 50%, #7209b7 100%);
     border-radius: 50%;
     box-shadow: 0 0 50px 15px rgba(255, 0, 127, 0.7), 0 0 120px 40px rgba(114, 9, 183, 0.5);
-    animation: pulseSun 4s infinite alternate;
+    animation: pulseSun 4s infinite alternate, floatSun 6s ease-in-out infinite;
 }
 
 @keyframes pulseSun {
     0% { box-shadow: 0 0 50px 15px rgba(255, 0, 127, 0.7), 0 0 120px 40px rgba(114, 9, 183, 0.5); transform: translateX(-50%) scale(1); }
-    100% { box-shadow: 0 0 70px 25px rgba(255, 0, 127, 0.9), 0 0 160px 60px rgba(114, 9, 183, 0.7); transform: translateX(-50%) scale(1.03); }
+    100% { box-shadow: 0 0 80px 25px rgba(255, 0, 127, 1), 0 0 180px 70px rgba(114, 9, 183, 0.8); transform: translateX(-50%) scale(1.05); }
+}
+
+@keyframes floatSun {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 .moving-grid {
@@ -79,14 +86,14 @@ body, html {
     width: 200%;
     height: 60%;
     background-image: 
-        linear-gradient(to right, rgba(255, 0, 127, 0.25) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 0, 127, 0.25) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 0, 127, 0.35) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 0, 127, 0.35) 2px, transparent 2px);
     background-size: 50px 50px;
     transform: rotateX(65deg);
     transform-origin: top center;
-    animation: moveGrid 3s linear infinite;
-    border-top: 2px solid rgba(255, 0, 127, 0.8);
-    box-shadow: 0 -10px 30px rgba(255, 0, 127, 0.5);
+    animation: moveGrid 2.5s linear infinite;
+    border-top: 2px solid rgba(255, 0, 127, 1);
+    box-shadow: 0 -15px 40px rgba(255, 0, 127, 0.8);
 }
 
 @keyframes moveGrid {
@@ -102,15 +109,27 @@ body, html {
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 10;
+    animation: fadeInContent 1s ease-out;
+}
+
+@keyframes fadeInContent {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 .main-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #00ff66;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     margin: 0 0 10px 0;
-    text-shadow: 0 0 8px rgba(0, 255, 102, 0.8);
+    text-shadow: 0 0 12px rgba(0, 255, 102, 0.9), 0 0 25px rgba(0, 255, 102, 0.5);
+    animation: glitchText 3s infinite;
+}
+
+@keyframes glitchText {
+    0%, 100% { text-shadow: 0 0 12px rgba(0, 255, 102, 0.9), 0 0 25px rgba(0, 255, 102, 0.5); }
+    50% { text-shadow: 2px 0 15px rgba(255, 0, 127, 0.9), -2px 0 15px rgba(0, 255, 255, 0.9); }
 }
 
 .subtitle {
@@ -118,11 +137,11 @@ body, html {
     color: #00ff66;
     letter-spacing: 2px;
     margin: 0 0 30px 0;
-    text-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.8);
 }
 
 .enter-btn {
-    background: transparent;
+    background: rgba(0, 255, 102, 0.05);
     border: 2px solid #00ff66;
     color: #00ff66;
     padding: 14px 28px;
@@ -132,21 +151,21 @@ body, html {
     text-transform: uppercase;
     letter-spacing: 3px;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.5), inset 0 0 15px rgba(0, 255, 102, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.6), inset 0 0 15px rgba(0, 255, 102, 0.2);
     animation: pulseEnter 2s infinite alternate;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .enter-btn:hover {
     background: #00ff66;
     color: #000;
-    box-shadow: 0 0 30px #00ff66, inset 0 0 20px #00ff66;
-    transform: scale(1.05);
+    box-shadow: 0 0 35px #00ff66, 0 0 60px rgba(0, 255, 102, 0.8), inset 0 0 20px #fff;
+    transform: scale(1.08) translateY(-3px);
 }
 
 @keyframes pulseEnter {
-    0% { box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
-    100% { box-shadow: 0 0 25px rgba(0, 255, 102, 0.9), 0 0 40px rgba(0, 255, 102, 0.4); }
+    0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); }
+    100% { box-shadow: 0 0 30px rgba(0, 255, 102, 0.9), 0 0 50px rgba(0, 255, 102, 0.5); }
 }
 
 /* --- Dashboard Navigation Header --- */
@@ -156,7 +175,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 70px;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.9);
     border-bottom: 2px solid #ff007f;
     display: flex;
     justify-content: space-between;
@@ -164,6 +183,7 @@ body, html {
     padding: 0 30px;
     box-sizing: border-box;
     z-index: 20;
+    box-shadow: 0 5px 25px rgba(255, 0, 127, 0.3);
 }
 
 .dashboard-header h2 {
@@ -171,7 +191,7 @@ body, html {
     color: #ff007f;
     letter-spacing: 2px;
     margin: 0;
-    text-shadow: 0 0 8px rgba(255, 0, 127, 0.7);
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
 }
 
 .nav-tabs {
@@ -179,6 +199,7 @@ body, html {
     gap: 15px;
 }
 
+/* Glowing Edges and Hover states for Navigation Tabs */
 .tab-btn, .back-home-btn {
     background: rgba(255, 0, 127, 0.1);
     border: 1px solid #ff007f;
@@ -187,27 +208,60 @@ body, html {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.4), inset 0 0 5px rgba(255, 0, 127, 0.2);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tab-btn.active, .tab-btn:hover, .back-home-btn:hover {
+.tab-btn::before, .back-home-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #ff007f, #00ffff, #ff007f);
+    z-index: -1;
+    filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tab-btn:hover::before, .tab-btn.active::before {
+    opacity: 1;
+    animation: glowingBorder 2s linear infinite;
+}
+
+@keyframes glowingBorder {
+    0% { filter: blur(4px); hue-rotate(0deg); }
+    50% { filter: blur(7px); hue-rotate(180deg); }
+    100% { filter: blur(4px); hue-rotate(360deg); }
+}
+
+.tab-btn.active, .tab-btn:hover {
     background: #ff007f;
     color: #fff;
-    box-shadow: 0 0 12px #ff007f;
+    box-shadow: 0 0 20px #ff007f, 0 0 35px rgba(255, 0, 127, 0.6);
+    transform: translateY(-2px);
 }
 
 .back-home-btn {
     border-color: #00ff66;
     color: #00ff66;
     background: rgba(0, 255, 102, 0.1);
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.4), inset 0 0 5px rgba(0, 255, 102, 0.2);
 }
+
+.back-home-btn::before {
+    background: linear-gradient(45deg, #00ff66, #00ffff, #00ff66);
+}
+
 .back-home-btn:hover {
     background: #00ff66;
     color: #000;
-    box-shadow: 0 0 12px #00ff66;
+    box-shadow: 0 0 20px #00ff66, 0 0 35px rgba(0, 255, 102, 0.6);
+    transform: translateY(-2px);
 }
 
-/* --- PAGE 2: Circuit Background & Live Circuit Sun Styling --- */
+/* --- Page 2: Car Driving Scene Background --- */
 .car-scene-background {
     position: absolute;
     top: 0;
@@ -216,86 +270,27 @@ body, html {
     height: 100%;
     z-index: 2;
     overflow: hidden;
-    background: linear-gradient(to bottom, #05020d 0%, #17072c 50%, #000 100%);
+    background: linear-gradient(to bottom, #11052c 0%, #2b0c4e 50%, #000 100%);
 }
 
-.circuit-board-bg {
+.striped-sun {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70%;
-    background-image: 
-        radial-gradient(circle, rgba(0, 255, 102, 0.15) 2px, transparent 2px),
-        linear-gradient(to right, rgba(0, 255, 102, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px, 80px 80px, 80px 80px;
-    opacity: 0.35;
-    animation: pulseCircuit 6s infinite alternate ease-in-out;
-    pointer-events: none;
-    z-index: 1;
-}
-
-@keyframes pulseCircuit {
-    0% { opacity: 0.2; transform: scale(1); }
-    100% { opacity: 0.45; transform: scale(1.02); }
-}
-
-.circuit-sun {
-    position: absolute;
-    top: 13%;
+    top: 15%;
     left: 50%;
     transform: translateX(-50%);
-    width: 270px;
-    height: 270px;
-    background: radial-gradient(circle, #ff00aa 0%, #7209b7 60%, #3a0ca3 100%);
+    width: 260px;
+    height: 260px;
+    background: linear-gradient(to bottom, #ffbd00 0%, #ff5400 60%, #ff007f 100%);
     border-radius: 50%;
-    box-shadow: 0 0 50px 15px rgba(255, 0, 170, 0.6), 0 0 120px 40px rgba(0, 255, 102, 0.3);
-    border: 2px dashed rgba(0, 255, 102, 0.6);
-    animation: circuitSunMove 5s infinite alternate ease-in-out;
-    z-index: 2;
+    box-shadow: 0 0 70px rgba(255, 84, 0, 0.9);
+    mask-image: repeating-linear-gradient(to bottom, black 0px, black 16px, transparent 16px, transparent 22px);
+    -webkit-mask-image: repeating-linear-gradient(to bottom, black 0px, black 16px, transparent 16px, transparent 22px);
+    animation: shiftSun 5s infinite alternate ease-in-out, floatSun 6s ease-in-out infinite;
 }
 
-.circuit-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    border: 1px solid rgba(0, 255, 102, 0.4);
-    border-radius: 50%;
-    background-image: radial-gradient(circle, transparent 50%, rgba(0, 255, 102, 0.2) 50%);
-    background-size: 15px 15px;
-    animation: rotateCore 20s linear infinite;
-}
-
-@keyframes rotateCore {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.circuit-node {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: #00ff66;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #00ff66, 0 0 15px #00ff66;
-}
-
-.circuit-node.n1 { top: 20%; left: 30%; animation: flashNode 1.2s infinite alternate; }
-.circuit-node.n2 { top: 60%; left: 75%; animation: flashNode 0.8s infinite alternate; }
-.circuit-node.n3 { top: 70%; left: 25%; animation: flashNode 1.5s infinite alternate; }
-
-@keyframes flashNode {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 12px #00ff66, 0 0 25px #00ff66; }
-}
-
-@keyframes circuitSunMove {
-    0% { transform: translateX(-50%) translateY(0px) scale(1); filter: hue-rotate(0deg); }
-    100% { transform: translateX(-50%) translateY(-6px) scale(1.04); filter: hue-rotate(15deg); }
+@keyframes shiftSun {
+    0% { transform: translateX(-50%) scale(1) translateY(0); filter: hue-rotate(0deg); }
+    100% { transform: translateX(-50%) scale(1.05) translateY(-8px); filter: hue-rotate(15deg); }
 }
 
 .mountain-silhouette {
@@ -311,79 +306,55 @@ body, html {
 
 .car-grid {
     background-image: 
-        linear-gradient(to right, rgba(0, 255, 255, 0.3) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 255, 255, 0.3) 1px, transparent 1px) !important;
+        linear-gradient(to right, rgba(0, 255, 255, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(0, 255, 255, 0.4) 2px, transparent 2px) !important;
     border-top: 2px solid #00ffff !important;
-    box-shadow: 0 -10px 30px rgba(0, 255, 255, 0.6) !important;
-    animation: moveGrid 1.8s linear infinite !important;
-    z-index: 4;
+    box-shadow: 0 -15px 40px rgba(0, 255, 255, 0.8) !important;
+    animation: moveGrid 1.5s linear infinite !important;
 }
 
-/* --- Retro Pager Component --- */
-.retro-pager {
+.retrowave-car {
     position: absolute;
-    top: 85px;
-    right: 30px;
+    bottom: 12%;
+    right: 18%;
     width: 220px;
-    background: #222;
-    border: 3px solid #444;
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.9);
-    z-index: 25;
-    font-family: 'Courier New', Courier, monospace;
+    height: 90px;
+    z-index: 6;
+    animation: bounceCar 0.5s infinite alternate ease-in-out;
 }
 
-.pager-brand {
-    font-size: 0.65rem;
-    color: #888;
-    margin-bottom: 4px;
-    letter-spacing: 1px;
+@keyframes bounceCar {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-5px) rotate(0.5deg); }
 }
 
-.pager-screen {
-    background: #98fb98;
-    border: 2px inset #556b2f;
-    border-radius: 3px;
-    height: 28px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.pager-text-scroll {
+.car-body {
     position: absolute;
-    white-space: nowrap;
-    color: #000;
-    font-size: 0.75rem;
-    font-weight: bold;
-    animation: scrollPager 8s linear infinite;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #48cae4 0%, #0077b6 50%, #03045e 100%);
+    clip-path: polygon(10% 40%, 30% 0%, 75% 0%, 95% 60%, 100% 80%, 0% 80%);
+    box-shadow: 0 0 20px rgba(72, 202, 228, 0.8);
 }
 
-@keyframes scrollPager {
-    0% { transform: translateX(220px); }
-    100% { transform: translateX(-350px); }
-}
-
-.pager-led-light {
+.car-lights {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 5px;
-    height: 5px;
-    background: #ff0000;
-    border-radius: 50%;
-    box-shadow: 0 0 6px #ff0000;
-    animation: pagerBlink 1s infinite alternate;
+    bottom: 15px;
+    right: 2px;
+    width: 25px;
+    height: 8px;
+    background: #ff007f;
+    box-shadow: 0 0 12px #ff007f, 0 0 25px #ff007f, 0 0 40px #ff007f;
+    animation: pulseLights 0.8s infinite alternate;
 }
 
-@keyframes pagerBlink {
-    0% { opacity: 0.2; }
-    100% { opacity: 1; box-shadow: 0 0 10px #ff0000; }
+@keyframes pulseLights {
+    from { opacity: 0.6; box-shadow: 0 0 8px #ff007f; }
+    to { opacity: 1; box-shadow: 0 0 25px #ff007f, 0 0 45px #ff007f; }
 }
 
-/* --- Page 3: Pyramid / City Background (Unchanged) --- */
+/* --- Page 3: Pyramid / City Background --- */
 .pyramid-scene-background {
     position: absolute;
     top: 0;
@@ -404,9 +375,9 @@ body, html {
     height: 180px;
     background: radial-gradient(circle, #00ffff 0%, #7209b7 70%);
     border-radius: 50%;
-    box-shadow: 0 0 40px #00ffff;
+    box-shadow: 0 0 50px #00ffff, 0 0 90px rgba(114, 9, 183, 0.8);
     border: 2px solid #fff;
-    animation: pulseSun 3s infinite alternate;
+    animation: pulseSun 3s infinite alternate, floatSun 5s ease-in-out infinite;
 }
 
 .pyramid-city {
@@ -417,17 +388,23 @@ body, html {
     height: 220px;
     background: linear-gradient(to top, #ff007f 0%, transparent 100%);
     clip-path: polygon(0% 100%, 15% 70%, 30% 85%, 50% 20%, 70% 85%, 85% 65%, 100% 100%);
-    opacity: 0.8;
+    opacity: 0.85;
     z-index: 3;
+    animation: pulseCity 4s infinite alternate;
+}
+
+@keyframes pulseCity {
+    from { opacity: 0.7; filter: drop-shadow(0 0 10px rgba(255,0,127,0.5)); }
+    to { opacity: 1; filter: drop-shadow(0 0 25px rgba(255,0,127,0.9)); }
 }
 
 .pyramid-grid {
     background-image: 
-        linear-gradient(to right, rgba(255, 0, 111, 0.3) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 0, 111, 0.3) 1px, transparent 1px) !important;
+        linear-gradient(to right, rgba(255, 0, 111, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 0, 111, 0.4) 2px, transparent 2px) !important;
     border-top: 2px solid #ff006f !important;
-    box-shadow: 0 -10px 30px rgba(255, 0, 111, 0.6) !important;
-    animation: moveGrid 2.5s linear infinite !important;
+    box-shadow: 0 -15px 40px rgba(255, 0, 111, 0.8) !important;
+    animation: moveGrid 2s linear infinite !important;
 }
 
 /* --- Sub Navigation Bar (Page 3) --- */
@@ -437,13 +414,14 @@ body, html {
     left: 0;
     width: 100%;
     height: 50px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     gap: 20px;
     align-items: center;
     z-index: 20;
-    border-bottom: 1px solid rgba(255, 0, 127, 0.3);
+    border-bottom: 1px solid rgba(255, 0, 127, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .sub-tab {
@@ -453,23 +431,29 @@ body, html {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.95rem;
     cursor: pointer;
-    padding: 5px 12px;
-    transition: all 0.3s;
+    padding: 6px 14px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sub-tab.active, .sub-tab:hover {
     color: #00ff66;
-    text-shadow: 0 0 8px rgba(0, 255, 102, 0.8);
+    text-shadow: 0 0 10px rgba(0, 255, 102, 0.9);
     border-bottom: 2px solid #00ff66;
+    box-shadow: 0 10px 15px -10px rgba(0, 255, 102, 0.5);
+    transform: translateY(-2px);
 }
 
 .sub-tab.highlight {
     color: #ff007f;
     border: 1px dashed #ff007f;
+    background: rgba(255, 0, 127, 0.05);
 }
+
 .sub-tab.highlight:hover {
     background: #ff007f;
     color: #fff;
+    box-shadow: 0 0 20px #ff007f;
 }
 
 /* --- Dashboard & Card UI Components --- */
@@ -485,24 +469,46 @@ body, html {
     z-index: 10;
     padding: 20px;
     box-sizing: border-box;
+    animation: fadeInContent 0.6s ease-out;
 }
 
 .matrix-card {
-    background: rgba(0, 0, 0, 0.82);
+    background: rgba(0, 0, 0, 0.88);
     border: 1px solid #ff007f;
-    box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
+    box-shadow: 0 0 35px rgba(255, 0, 127, 0.5), inset 0 0 15px rgba(255, 0, 127, 0.15);
     padding: 30px;
-    border-radius: 6px;
+    border-radius: 8px;
     max-width: 600px;
     width: 100%;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: cardFloat 5s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.matrix-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #ff007f, #00ff66, transparent);
+    animation: scanlineSweep 4s linear infinite;
+}
+
+@keyframes scanlineSweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .matrix-card h3 {
     color: #00ff66;
     margin-top: 0;
     letter-spacing: 2px;
-    text-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+    text-shadow: 0 0 10px rgba(0, 255, 102, 0.8);
 }
 
 .matrix-card p {
@@ -530,18 +536,25 @@ body, html {
     gap: 8px;
     font-family: 'Courier New', Courier, monospace;
     cursor: pointer;
-    transition: all 0.3s;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .cyber-card-btn:hover {
     background: #00ff66;
     color: #000;
-    box-shadow: 0 0 20px #00ff66;
-    transform: translateY(-3px);
+    box-shadow: 0 0 30px #00ff66, 0 0 50px rgba(0, 255, 102, 0.6);
+    transform: translateY(-5px) scale(1.03);
 }
 
 .cyber-card-btn .icon {
     font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.cyber-card-btn:hover .icon {
+    transform: scale(1.2) rotate(10deg);
 }
 
 .sub-tab-content {
@@ -562,12 +575,16 @@ body, html {
     font-weight: bold;
     cursor: pointer;
     margin-top: 15px;
-    transition: all 0.3s;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .cyber-btn:hover {
     background: #00ff66;
     color: #000;
-    box-shadow: 0 0 15px #00ff66;
+    box-shadow: 0 0 25px #00ff66, 0 0 45px rgba(0, 255, 102, 0.7);
+    transform: translateY(-3px);
 }
 
 /* --- Page 4: Retro Computer Screen Card --- */
@@ -577,8 +594,9 @@ body, html {
     border-radius: 12px;
     padding: 20px;
     width: 650px;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0,0,0,0.8);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 255, 100, 0.15), inset 0 0 20px rgba(0,0,0,0.8);
     text-align: center;
+    animation: cardFloat 6s ease-in-out infinite;
 }
 
 .monitor-screen {
@@ -588,13 +606,14 @@ body, html {
     height: 340px;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 30px rgba(0, 255, 100, 0.15);
+    box-shadow: inset 0 0 40px rgba(0, 255, 100, 0.25);
 }
 
+/* Scanlines overlay for retro monitor look */
 .scanlines {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
     background-size: 100% 4px;
     z-index: 10;
     pointer-events: none;
@@ -615,7 +634,7 @@ body, html {
     color: #00ff66;
     text-align: left;
     margin-bottom: 10px;
-    text-shadow: 0 0 5px #00ff66;
+    text-shadow: 0 0 8px #00ff66;
 }
 
 .preview-viewport {
@@ -645,7 +664,8 @@ body, html {
     height: 80px;
     background: radial-gradient(circle, #ff007f, #7209b7);
     border-radius: 50%;
-    box-shadow: 0 0 20px #ff007f;
+    box-shadow: 0 0 25px #ff007f;
+    animation: pulseSun 3s infinite alternate;
 }
 
 .retro-grid-mini {
@@ -653,10 +673,11 @@ body, html {
     bottom: 0;
     width: 100%;
     height: 50%;
-    background-image: linear-gradient(to right, rgba(255,0,127,0.4) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255,0,127,0.4) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(255,0,127,0.5) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,0,127,0.5) 1px, transparent 1px);
     background-size: 20px 20px;
     transform: rotateX(45deg);
+    animation: moveGrid 2s linear infinite;
 }
 
 #previewText {
@@ -664,9 +685,10 @@ body, html {
     z-index: 12;
     color: #00ff66;
     font-size: 0.85rem;
-    text-shadow: 0 0 8px #00ff66;
-    background: rgba(0,0,0,0.7);
+    text-shadow: 0 0 10px #00ff66;
+    background: rgba(0,0,0,0.8);
     padding: 6px 12px;
+    border: 1px solid rgba(0, 255, 102, 0.4);
 }
 
 .preview-image-tag {
@@ -675,6 +697,7 @@ body, html {
     object-fit: contain;
     z-index: 15;
     position: relative;
+    animation: fadeInContent 0.5s ease-out;
 }
 
 .terminal-footer {
@@ -682,7 +705,7 @@ body, html {
     color: #00ff66;
     text-align: left;
     margin-top: 8px;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .monitor-controls {
@@ -698,13 +721,13 @@ body, html {
     height: 8px;
     background: #00ff66;
     border-radius: 50%;
-    box-shadow: 0 0 8px #00ff66;
-    animation: pulseLed 1.5s infinite alternate;
+    box-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+    animation: pulseLed 1.2s infinite alternate;
 }
 
 @keyframes pulseLed {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; box-shadow: 0 0 12px #00ff66; }
+    0% { opacity: 0.4; box-shadow: 0 0 5px #00ff66; }
+    100% { opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
 }
 
 .brand-label {
@@ -728,9 +751,11 @@ body, html {
 .mockup-btn {
     border-color: #ff007f;
     color: #ff007f;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
 }
+
 .mockup-btn:hover {
     background: #ff007f !important;
-    box-shadow: 0 0 15px #ff007f !important;
+    box-shadow: 0 0 25px #ff007f, 0 0 45px rgba(255, 0, 127, 0.7) !important;
     color: #fff !important;
 }
