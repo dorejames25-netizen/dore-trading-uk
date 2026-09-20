@@ -1,13 +1,18 @@
-/* --- Base Styles --- */
+/* --- Import Arcade Video Game Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* --- Base Styles & Android Viewport Setup --- */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-color: #000;
-    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #050208;
+    font-family: 'Press Start 2P', monospace, cursive;
     color: #fff;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .page {
@@ -15,11 +20,12 @@ body, html {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     display: none;
     opacity: 0;
     transform: scale(0.98);
-    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    box-sizing: border-box;
 }
 
 .page.active {
@@ -31,7 +37,7 @@ body, html {
 
 /* --- Background Layers --- */
 .matrix-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -42,11 +48,13 @@ body, html {
 
 #matrixCanvas {
     display: block;
+    width: 100%;
+    height: 100%;
 }
 
-/* Retrowave Landscape Layer (Page 1 & 4) */
+/* Sunset Retrowave Landscape Layer (Yellow & Orange Theme) */
 .retrowave-landscape {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -58,25 +66,25 @@ body, html {
 
 .glowing-sun {
     position: absolute;
-    top: 15%;
+    top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, #ff007f 0%, #b5179e 50%, #7209b7 100%);
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, #fff01f 0%, #ff8800 50%, #ff3b00 100%);
     border-radius: 50%;
-    box-shadow: 0 0 50px 15px rgba(255, 0, 127, 0.7), 0 0 120px 40px rgba(114, 9, 183, 0.5);
+    box-shadow: 0 0 40px 10px rgba(255, 136, 0, 0.8), 0 0 90px 30px rgba(255, 59, 0, 0.6);
     animation: pulseSun 4s infinite alternate, floatSun 6s ease-in-out infinite;
 }
 
 @keyframes pulseSun {
-    0% { box-shadow: 0 0 50px 15px rgba(255, 0, 127, 0.7), 0 0 120px 40px rgba(114, 9, 183, 0.5); transform: translateX(-50%) scale(1); }
-    100% { box-shadow: 0 0 80px 25px rgba(255, 0, 127, 1), 0 0 180px 70px rgba(114, 9, 183, 0.8); transform: translateX(-50%) scale(1.05); }
+    0% { box-shadow: 0 0 40px 10px rgba(255, 136, 0, 0.7), 0 0 90px 30px rgba(255, 59, 0, 0.5); transform: translateX(-50%) scale(1); }
+    100% { box-shadow: 0 0 60px 20px rgba(255, 208, 0, 1), 0 0 120px 50px rgba(255, 68, 0, 0.8); transform: translateX(-50%) scale(1.05); }
 }
 
 @keyframes floatSun {
     0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
+    50% { transform: translateX(-50%) translateY(-8px); }
 }
 
 .moving-grid {
@@ -84,477 +92,400 @@ body, html {
     bottom: 0;
     left: -50%;
     width: 200%;
-    height: 60%;
+    height: 55%;
     background-image: 
-        linear-gradient(to right, rgba(255, 0, 127, 0.35) 2px, transparent 2px),
-        linear-gradient(to bottom, rgba(255, 0, 127, 0.35) 2px, transparent 2px);
-    background-size: 50px 50px;
-    transform: rotateX(65deg);
+        linear-gradient(to right, rgba(255, 136, 0, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 136, 0, 0.4) 2px, transparent 2px);
+    background-size: 40px 40px;
+    transform: rotateX(60deg);
     transform-origin: top center;
-    animation: moveGrid 2.5s linear infinite;
-    border-top: 2px solid rgba(255, 0, 127, 1);
-    box-shadow: 0 -15px 40px rgba(255, 0, 127, 0.8);
+    animation: moveGrid 2s linear infinite;
+    border-top: 2px solid rgba(255, 208, 0, 0.9);
+    box-shadow: 0 -15px 35px rgba(255, 136, 0, 0.8);
 }
 
 @keyframes moveGrid {
     0% { background-position: 0 0; }
-    100% { background-position: 0 50px; }
+    100% { background-position: 0 40px; }
 }
 
-/* --- Page 1 Landing Content & Glowing Enter Button --- */
+/* --- Page 1 Landing Content & Arcade Enter Button --- */
 .content {
-    position: absolute;
-    top: 50%;
+    position: relative;
+    top: 50vh;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 10;
-    animation: fadeInContent 1s ease-out;
-}
-
-@keyframes fadeInContent {
-    from { opacity: 0; transform: translate(-50%, -40%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
 .main-title {
-    font-size: 1.8rem;
-    color: #00ff66;
+    font-size: 0.95rem;
+    color: #ffe600;
     text-transform: uppercase;
-    letter-spacing: 6px;
-    margin: 0 0 10px 0;
-    text-shadow: 0 0 12px rgba(0, 255, 102, 0.9), 0 0 25px rgba(0, 255, 102, 0.5);
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+    text-shadow: 0 0 10px rgba(255, 230, 0, 0.9), 0 0 20px rgba(255, 136, 0, 0.6);
     animation: glitchText 3s infinite;
 }
 
 @keyframes glitchText {
-    0%, 100% { text-shadow: 0 0 12px rgba(0, 255, 102, 0.9), 0 0 25px rgba(0, 255, 102, 0.5); }
-    50% { text-shadow: 2px 0 15px rgba(255, 0, 127, 0.9), -2px 0 15px rgba(0, 255, 255, 0.9); }
+    0%, 100% { text-shadow: 0 0 10px rgba(255, 230, 0, 0.9); }
+    50% { text-shadow: 2px 0 10px rgba(255, 59, 0, 0.9), -2px 0 10px rgba(255, 208, 0, 0.9); }
 }
 
 .subtitle {
-    font-size: 1.1rem;
-    color: #00ff66;
-    letter-spacing: 2px;
-    margin: 0 0 30px 0;
-    text-shadow: 0 0 8px rgba(0, 255, 102, 0.8);
+    font-size: 0.6rem;
+    color: #ffaa00;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
 }
 
 .enter-btn {
-    background: rgba(0, 255, 102, 0.05);
-    border: 2px solid #00ff66;
-    color: #00ff66;
-    padding: 14px 28px;
-    font-size: 1.1rem;
-    font-family: 'Courier New', Courier, monospace;
+    background: rgba(255, 136, 0, 0.1);
+    border: 2px solid #ffaa00;
+    color: #ffe600;
+    padding: 14px 20px;
+    font-size: 0.7rem;
+    font-family: 'Press Start 2P', monospace;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 3px;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 255, 102, 0.6), inset 0 0 15px rgba(0, 255, 102, 0.2);
+    box-shadow: 0 0 15px rgba(255, 136, 0, 0.5), inset 0 0 10px rgba(255, 136, 0, 0.2);
     animation: pulseEnter 2s infinite alternate;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.enter-btn:hover {
-    background: #00ff66;
+.enter-btn:active, .enter-btn:hover {
+    background: #ffaa00;
     color: #000;
-    box-shadow: 0 0 35px #00ff66, 0 0 60px rgba(0, 255, 102, 0.8), inset 0 0 20px #fff;
-    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 0 25px #ffaa00, 0 0 40px rgba(255, 136, 0, 0.8);
+    transform: scale(1.02);
 }
 
 @keyframes pulseEnter {
-    0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); }
-    100% { box-shadow: 0 0 30px rgba(0, 255, 102, 0.9), 0 0 50px rgba(0, 255, 102, 0.5); }
+    0% { box-shadow: 0 0 10px rgba(255, 136, 0, 0.4); }
+    100% { box-shadow: 0 0 25px rgba(255, 208, 0, 0.8); }
 }
 
-/* --- Dashboard Navigation Header --- */
+/* --- Android Dashboard Header & Navigation --- */
 .dashboard-header {
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
-    background: rgba(0, 0, 0, 0.9);
-    border-bottom: 2px solid #ff007f;
+    background: rgba(5, 2, 8, 0.95);
+    border-bottom: 2px solid #ff8800;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 0 30px;
+    padding: 10px;
     box-sizing: border-box;
     z-index: 20;
-    box-shadow: 0 5px 25px rgba(255, 0, 127, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 136, 0, 0.3);
+    gap: 8px;
 }
 
 .dashboard-header h2 {
-    font-size: 1.1rem;
-    color: #ff007f;
-    letter-spacing: 2px;
+    font-size: 0.65rem;
+    color: #ffaa00;
     margin: 0;
-    text-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+    text-align: center;
+    text-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
 }
 
 .nav-tabs {
     display: flex;
-    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
 }
 
-/* Glowing Edges and Hover states for Navigation Tabs */
 .tab-btn, .back-home-btn {
-    background: rgba(255, 0, 127, 0.1);
-    border: 1px solid #ff007f;
-    color: #ff007f;
-    padding: 8px 16px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9rem;
+    background: rgba(255, 136, 0, 0.1);
+    border: 1px solid #ff8800;
+    color: #ffaa00;
+    padding: 8px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 8px rgba(255, 0, 127, 0.4), inset 0 0 5px rgba(255, 0, 127, 0.2);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tab-btn::before, .back-home-btn::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, #ff007f, #00ffff, #ff007f);
-    z-index: -1;
-    filter: blur(4px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.tab-btn:hover::before, .tab-btn.active::before {
-    opacity: 1;
-    animation: glowingBorder 2s linear infinite;
-}
-
-@keyframes glowingBorder {
-    0% { filter: blur(4px); hue-rotate(0deg); }
-    50% { filter: blur(7px); hue-rotate(180deg); }
-    100% { filter: blur(4px); hue-rotate(360deg); }
+    box-shadow: 0 0 6px rgba(255, 136, 0, 0.3);
+    transition: all 0.3s ease;
+    flex: 1 1 auto;
+    text-align: center;
 }
 
 .tab-btn.active, .tab-btn:hover {
-    background: #ff007f;
-    color: #fff;
-    box-shadow: 0 0 20px #ff007f, 0 0 35px rgba(255, 0, 127, 0.6);
-    transform: translateY(-2px);
+    background: #ff8800;
+    color: #000;
+    box-shadow: 0 0 15px #ff8800;
 }
 
 .back-home-btn {
-    border-color: #00ff66;
-    color: #00ff66;
-    background: rgba(0, 255, 102, 0.1);
-    box-shadow: 0 0 8px rgba(0, 255, 102, 0.4), inset 0 0 5px rgba(0, 255, 102, 0.2);
-}
-
-.back-home-btn::before {
-    background: linear-gradient(45deg, #00ff66, #00ffff, #00ff66);
+    border-color: #ffe600;
+    color: #ffe600;
+    background: rgba(255, 230, 0, 0.1);
 }
 
 .back-home-btn:hover {
-    background: #00ff66;
+    background: #ffe600;
     color: #000;
-    box-shadow: 0 0 20px #00ff66, 0 0 35px rgba(0, 255, 102, 0.6);
-    transform: translateY(-2px);
+    box-shadow: 0 0 15px #ffe600;
 }
 
-/* --- Page 2: Car Driving Scene Background --- */
+/* --- Page 2: Android Car Scene Background --- */
 .car-scene-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 2;
     overflow: hidden;
-    background: linear-gradient(to bottom, #11052c 0%, #2b0c4e 50%, #000 100%);
+    background: linear-gradient(to bottom, #2c1105 0%, #4e210c 50%, #050208 100%);
 }
 
 .striped-sun {
     position: absolute;
-    top: 15%;
+    top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 260px;
-    height: 260px;
-    background: linear-gradient(to bottom, #ffbd00 0%, #ff5400 60%, #ff007f 100%);
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to bottom, #ffe600 0%, #ff6600 60%, #ff2200 100%);
     border-radius: 50%;
-    box-shadow: 0 0 70px rgba(255, 84, 0, 0.9);
-    mask-image: repeating-linear-gradient(to bottom, black 0px, black 16px, transparent 16px, transparent 22px);
-    -webkit-mask-image: repeating-linear-gradient(to bottom, black 0px, black 16px, transparent 16px, transparent 22px);
+    box-shadow: 0 0 50px rgba(255, 102, 0, 0.8);
+    mask-image: repeating-linear-gradient(to bottom, black 0px, black 12px, transparent 12px, transparent 18px);
+    -webkit-mask-image: repeating-linear-gradient(to bottom, black 0px, black 12px, transparent 12px, transparent 18px);
     animation: shiftSun 5s infinite alternate ease-in-out, floatSun 6s ease-in-out infinite;
 }
 
 @keyframes shiftSun {
     0% { transform: translateX(-50%) scale(1) translateY(0); filter: hue-rotate(0deg); }
-    100% { transform: translateX(-50%) scale(1.05) translateY(-8px); filter: hue-rotate(15deg); }
+    100% { transform: translateX(-50%) scale(1.05) translateY(-5px); filter: hue-rotate(10deg); }
 }
 
 .mountain-silhouette {
     position: absolute;
-    bottom: 40%;
+    bottom: 35%;
     left: 0;
     width: 100%;
-    height: 150px;
-    background: linear-gradient(135deg, #180324 25%, #2a0845 50%, #0d0118 75%);
-    clip-path: polygon(0% 100%, 5% 70%, 12% 85%, 20% 50%, 28% 75%, 35% 40%, 45% 80%, 55% 45%, 65% 75%, 72% 55%, 82% 85%, 90% 60%, 100% 100%);
+    height: 120px;
+    background: linear-gradient(135deg, #240b03 25%, #451308 50%, #180301 75%);
+    clip-path: polygon(0% 100%, 6% 65%, 15% 80%, 22% 45%, 30% 70%, 40% 35%, 50% 75%, 60% 40%, 70% 70%, 80% 50%, 90% 80%, 100% 100%);
     z-index: 3;
 }
 
 .car-grid {
     background-image: 
-        linear-gradient(to right, rgba(0, 255, 255, 0.4) 2px, transparent 2px),
-        linear-gradient(to bottom, rgba(0, 255, 255, 0.4) 2px, transparent 2px) !important;
-    border-top: 2px solid #00ffff !important;
-    box-shadow: 0 -15px 40px rgba(0, 255, 255, 0.8) !important;
+        linear-gradient(to right, rgba(255, 170, 0, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 170, 0, 0.4) 2px, transparent 2px) !important;
+    border-top: 2px solid #ffe600 !important;
+    box-shadow: 0 -15px 35px rgba(255, 136, 0, 0.8) !important;
     animation: moveGrid 1.5s linear infinite !important;
 }
 
 .retrowave-car {
     position: absolute;
-    bottom: 12%;
-    right: 18%;
-    width: 220px;
-    height: 90px;
+    bottom: 10%;
+    right: 10%;
+    width: 150px;
+    height: 65px;
     z-index: 6;
     animation: bounceCar 0.5s infinite alternate ease-in-out;
 }
 
 @keyframes bounceCar {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(-5px) rotate(0.5deg); }
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-4px); }
 }
 
 .car-body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50px;
-    background: linear-gradient(135deg, #48cae4 0%, #0077b6 50%, #03045e 100%);
+    height: 38px;
+    background: linear-gradient(135deg, #ffa200 0%, #ff4800 50%, #5e0c03 100%);
     clip-path: polygon(10% 40%, 30% 0%, 75% 0%, 95% 60%, 100% 80%, 0% 80%);
-    box-shadow: 0 0 20px rgba(72, 202, 228, 0.8);
+    box-shadow: 0 0 15px rgba(255, 136, 0, 0.8);
 }
 
 .car-lights {
     position: absolute;
-    bottom: 15px;
+    bottom: 10px;
     right: 2px;
-    width: 25px;
-    height: 8px;
-    background: #ff007f;
-    box-shadow: 0 0 12px #ff007f, 0 0 25px #ff007f, 0 0 40px #ff007f;
-    animation: pulseLights 0.8s infinite alternate;
-}
-
-@keyframes pulseLights {
-    from { opacity: 0.6; box-shadow: 0 0 8px #ff007f; }
-    to { opacity: 1; box-shadow: 0 0 25px #ff007f, 0 0 45px #ff007f; }
+    width: 18px;
+    height: 6px;
+    background: #ffe600;
+    box-shadow: 0 0 10px #ffe600, 0 0 20px #ffe600;
 }
 
 /* --- Page 3: Pyramid / City Background --- */
 .pyramid-scene-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 2;
     overflow: hidden;
-    background: #020005;
+    background: #050208;
 }
 
 .cyber-sphere-sun {
     position: absolute;
-    top: 12%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, #00ffff 0%, #7209b7 70%);
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, #ffe600 0%, #ff4800 70%);
     border-radius: 50%;
-    box-shadow: 0 0 50px #00ffff, 0 0 90px rgba(114, 9, 183, 0.8);
+    box-shadow: 0 0 40px #ff6600, 0 0 80px rgba(255, 136, 0, 0.7);
     border: 2px solid #fff;
     animation: pulseSun 3s infinite alternate, floatSun 5s ease-in-out infinite;
 }
 
 .pyramid-city {
     position: absolute;
-    bottom: 40%;
+    bottom: 35%;
     left: 0;
     width: 100%;
-    height: 220px;
-    background: linear-gradient(to top, #ff007f 0%, transparent 100%);
-    clip-path: polygon(0% 100%, 15% 70%, 30% 85%, 50% 20%, 70% 85%, 85% 65%, 100% 100%);
-    opacity: 0.85;
+    height: 180px;
+    background: linear-gradient(to top, #ff6600 0%, transparent 100%);
+    clip-path: polygon(0% 100%, 15% 65%, 30% 80%, 50% 15%, 70% 80%, 85% 60%, 100% 100%);
+    opacity: 0.9;
     z-index: 3;
-    animation: pulseCity 4s infinite alternate;
-}
-
-@keyframes pulseCity {
-    from { opacity: 0.7; filter: drop-shadow(0 0 10px rgba(255,0,127,0.5)); }
-    to { opacity: 1; filter: drop-shadow(0 0 25px rgba(255,0,127,0.9)); }
 }
 
 .pyramid-grid {
     background-image: 
-        linear-gradient(to right, rgba(255, 0, 111, 0.4) 2px, transparent 2px),
-        linear-gradient(to bottom, rgba(255, 0, 111, 0.4) 2px, transparent 2px) !important;
-    border-top: 2px solid #ff006f !important;
-    box-shadow: 0 -15px 40px rgba(255, 0, 111, 0.8) !important;
+        linear-gradient(to right, rgba(255, 102, 0, 0.4) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(255, 102, 0, 0.4) 2px, transparent 2px) !important;
+    border-top: 2px solid #ff6600 !important;
+    box-shadow: 0 -15px 35px rgba(255, 102, 0, 0.8) !important;
     animation: moveGrid 2s linear infinite !important;
 }
 
 /* --- Sub Navigation Bar (Page 3) --- */
 .sub-nav-bar {
-    position: absolute;
-    top: 75px;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(5, 2, 8, 0.9);
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    align-items: center;
+    gap: 6px;
+    padding: 8px;
     z-index: 20;
-    border-bottom: 1px solid rgba(255, 0, 127, 0.5);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid rgba(255, 136, 0, 0.4);
+    box-sizing: border-box;
 }
 
 .sub-tab {
     background: transparent;
     border: none;
     color: #a0a0a0;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.95rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
     cursor: pointer;
-    padding: 6px 14px;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 6px 10px;
+    transition: all 0.3s ease;
 }
 
 .sub-tab.active, .sub-tab:hover {
-    color: #00ff66;
-    text-shadow: 0 0 10px rgba(0, 255, 102, 0.9);
-    border-bottom: 2px solid #00ff66;
-    box-shadow: 0 10px 15px -10px rgba(0, 255, 102, 0.5);
-    transform: translateY(-2px);
+    color: #ffe600;
+    text-shadow: 0 0 8px rgba(255, 230, 0, 0.9);
+    border-bottom: 2px solid #ffe600;
 }
 
 .sub-tab.highlight {
-    color: #ff007f;
-    border: 1px dashed #ff007f;
-    background: rgba(255, 0, 127, 0.05);
-}
-
-.sub-tab.highlight:hover {
-    background: #ff007f;
-    color: #fff;
-    box-shadow: 0 0 20px #ff007f;
+    color: #ff6600;
+    border: 1px dashed #ff6600;
+    background: rgba(255, 102, 0, 0.05);
 }
 
 /* --- Dashboard & Card UI Components --- */
 .dashboard-content {
-    position: absolute;
-    top: 140px;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: calc(100% - 140px);
+    min-height: calc(100vh - 120px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    padding: 20px;
+    padding: 15px;
     box-sizing: border-box;
-    animation: fadeInContent 0.6s ease-out;
 }
 
 .matrix-card {
-    background: rgba(0, 0, 0, 0.88);
-    border: 1px solid #ff007f;
-    box-shadow: 0 0 35px rgba(255, 0, 127, 0.5), inset 0 0 15px rgba(255, 0, 127, 0.15);
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 600px;
+    background: rgba(5, 2, 8, 0.92);
+    border: 1px solid #ff8800;
+    box-shadow: 0 0 25px rgba(255, 136, 0, 0.4), inset 0 0 10px rgba(255, 136, 0, 0.1);
+    padding: 20px 15px;
+    border-radius: 6px;
     width: 100%;
+    max-width: 450px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    animation: cardFloat 5s ease-in-out infinite;
-}
-
-@keyframes cardFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
-
-.matrix-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, #ff007f, #00ff66, transparent);
-    animation: scanlineSweep 4s linear infinite;
-}
-
-@keyframes scanlineSweep {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    box-sizing: border-box;
 }
 
 .matrix-card h3 {
-    color: #00ff66;
+    color: #ffe600;
+    font-size: 0.75rem;
     margin-top: 0;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(0, 255, 102, 0.8);
+    line-height: 1.4;
+    text-shadow: 0 0 8px rgba(255, 230, 0, 0.8);
 }
 
 .matrix-card p {
     color: #ccc;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.55rem;
+    line-height: 1.6;
 }
 
 .action-grid {
     display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 25px;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .cyber-card-btn {
-    background: rgba(0, 255, 102, 0.05);
-    border: 1px solid #00ff66;
-    color: #00ff66;
-    padding: 15px;
-    flex: 1;
+    background: rgba(255, 136, 0, 0.05);
+    border: 1px solid #ffaa00;
+    color: #ffe600;
+    padding: 12px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-family: 'Courier New', Courier, monospace;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
     cursor: pointer;
-    position: relative;
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 8px rgba(255, 136, 0, 0.2);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.cyber-card-btn:hover {
-    background: #00ff66;
+.cyber-card-btn:active, .cyber-card-btn:hover {
+    background: #ffaa00;
     color: #000;
-    box-shadow: 0 0 30px #00ff66, 0 0 50px rgba(0, 255, 102, 0.6);
-    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0 20px #ffaa00;
 }
 
 .cyber-card-btn .icon {
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-.cyber-card-btn:hover .icon {
-    transform: scale(1.2) rotate(10deg);
+    font-size: 0.8rem;
 }
 
 .sub-tab-content {
@@ -568,52 +499,53 @@ body, html {
 
 .cyber-btn {
     background: transparent;
-    border: 1px solid #00ff66;
-    color: #00ff66;
-    padding: 10px 20px;
-    font-family: 'Courier New', Courier, monospace;
+    border: 1px solid #ffe600;
+    color: #ffe600;
+    padding: 10px 15px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 15px;
-    position: relative;
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 8px rgba(255, 230, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
-.cyber-btn:hover {
-    background: #00ff66;
+.cyber-btn:active, .cyber-btn:hover {
+    background: #ffe600;
     color: #000;
-    box-shadow: 0 0 25px #00ff66, 0 0 45px rgba(0, 255, 102, 0.7);
-    transform: translateY(-3px);
+    box-shadow: 0 0 20px #ffe600;
 }
 
-/* --- Page 4: Retro Computer Screen Card --- */
+/* --- Page 4: Retro Computer Arcade Screen Card --- */
 .retro-monitor {
-    background: #151515;
-    border: 6px solid #333;
-    border-radius: 12px;
-    padding: 20px;
-    width: 650px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 255, 100, 0.15), inset 0 0 20px rgba(0,0,0,0.8);
+    background: #15100a;
+    border: 4px solid #332211;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 136, 0, 0.15);
     text-align: center;
-    animation: cardFloat 6s ease-in-out infinite;
 }
 
 .monitor-screen {
-    background: #050b05;
-    border: 4px inset #222;
-    border-radius: 6px;
-    height: 340px;
+    background: #080402;
+    border: 3px inset #221100;
+    border-radius: 4px;
+    height: 240px;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 40px rgba(0, 255, 100, 0.25);
+    box-shadow: inset 0 0 25px rgba(255, 136, 0, 0.2);
 }
 
-/* Scanlines overlay for retro monitor look */
 .scanlines {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%);
     background-size: 100% 4px;
     z-index: 10;
     pointer-events: none;
@@ -624,22 +556,22 @@ body, html {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 15px;
+    padding: 10px;
     box-sizing: border-box;
     z-index: 5;
 }
 
 .terminal-header {
-    font-size: 0.8rem;
-    color: #00ff66;
+    font-size: 0.5rem;
+    color: #ffe600;
     text-align: left;
-    margin-bottom: 10px;
-    text-shadow: 0 0 8px #00ff66;
+    margin-bottom: 8px;
+    text-shadow: 0 0 6px #ffe600;
 }
 
 .preview-viewport {
     flex: 1;
-    border: 1px dashed #00ff66;
+    border: 1px dashed #ffe600;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -659,23 +591,22 @@ body, html {
 
 .retro-sun-mini {
     position: absolute;
-    top: 25%;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, #ff007f, #7209b7);
+    top: 20%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #ffe600, #ff4800);
     border-radius: 50%;
-    box-shadow: 0 0 25px #ff007f;
-    animation: pulseSun 3s infinite alternate;
+    box-shadow: 0 0 15px #ff6600;
 }
 
 .retro-grid-mini {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50%;
-    background-image: linear-gradient(to right, rgba(255,0,127,0.5) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255,0,127,0.5) 1px, transparent 1px);
-    background-size: 20px 20px;
+    height: 45%;
+    background-image: linear-gradient(to right, rgba(255,102,0,0.5) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,102,0,0.5) 1px, transparent 1px);
+    background-size: 15px 15px;
     transform: rotateX(45deg);
     animation: moveGrid 2s linear infinite;
 }
@@ -683,195 +614,68 @@ body, html {
 #previewText {
     position: relative;
     z-index: 12;
-    color: #00ff66;
-    font-size: 0.85rem;
-    text-shadow: 0 0 10px #00ff66;
-    background: rgba(0,0,0,0.8);
-    padding: 6px 12px;
-    border: 1px solid rgba(0, 255, 102, 0.4);
-}
-
-.preview-image-tag {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    z-index: 15;
-    position: relative;
-    animation: fadeInContent 0.5s ease-out;
+    color: #ffe600;
+    font-size: 0.5rem;
+    text-shadow: 0 0 6px #ffe600;
+    background: rgba(0,0,0,0.85);
+    padding: 6px;
+    border: 1px solid rgba(255, 230, 0, 0.4);
+    text-align: center;
 }
 
 .terminal-footer {
-    font-size: 0.75rem;
-    color: #00ff66;
+    font-size: 0.45rem;
+    color: #ffe600;
     text-align: left;
-    margin-top: 8px;
-    opacity: 0.9;
+    margin-top: 6px;
 }
 
 .monitor-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
-    padding: 0 5px;
+    margin-top: 10px;
+    padding: 0 4px;
 }
 
 .power-led {
-    width: 8px;
-    height: 8px;
-    background: #00ff66;
+    width: 6px;
+    height: 6px;
+    background: #ffe600;
     border-radius: 50%;
-    box-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+    box-shadow: 0 0 8px #ffe600;
     animation: pulseLed 1.2s infinite alternate;
 }
 
 @keyframes pulseLed {
-    0% { opacity: 0.4; box-shadow: 0 0 5px #00ff66; }
-    100% { opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
+    0% { opacity: 0.4; }
+    100% { opacity: 1; box-shadow: 0 0 12px #ffe600; }
 }
 
 .brand-label {
-    font-size: 0.75rem;
-    color: #777;
-    letter-spacing: 1px;
+    font-size: 0.45rem;
+    color: #888;
 }
 
 .monitor-action-panel {
     display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 .upload-btn {
-    border-color: #00ff66;
-    color: #00ff66;
+    border-color: #ffe600;
+    color: #ffe600;
 }
 
 .mockup-btn {
-    border-color: #ff007f;
-    color: #ff007f;
-    box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+    border-color: #ff6600;
+    color: #ff6600;
 }
 
-.mockup-btn:hover {
-    background: #ff007f !important;
-    box-shadow: 0 0 25px #ff007f, 0 0 45px rgba(255, 0, 127, 0.7) !important;
+.mockup-btn:active, .mockup-btn:hover {
+    background: #ff6600 !important;
     color: #fff !important;
-}
-
-/* --- Mobile Responsive Media Queries --- */
-@media screen and (max-width: 768px) {
-    body, html {
-        overflow-y: auto;
-    }
-
-    .page {
-        overflow-y: auto;
-        height: 100vh;
-    }
-
-    .dashboard-header {
-        height: auto;
-        flex-direction: column;
-        padding: 12px 15px;
-        gap: 10px;
-        position: relative;
-    }
-
-    .dashboard-header h2 {
-        font-size: 0.85rem;
-        text-align: center;
-    }
-
-    .nav-tabs {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .tab-btn, .back-home-btn {
-        padding: 5px 10px;
-        font-size: 0.75rem;
-    }
-
-    .sub-nav-bar {
-        top: auto;
-        position: relative;
-        height: auto;
-        flex-wrap: wrap;
-        padding: 8px;
-        gap: 8px;
-    }
-
-    .sub-tab {
-        font-size: 0.8rem;
-        padding: 4px 8px;
-    }
-
-    .dashboard-content {
-        top: auto;
-        height: auto;
-        padding: 15px 10px;
-        position: relative;
-    }
-
-    .matrix-card {
-        padding: 20px 15px;
-        max-width: 100%;
-    }
-
-    .action-grid {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .main-title {
-        font-size: 1.3rem;
-        letter-spacing: 3px;
-    }
-
-    .subtitle {
-        font-size: 0.9rem;
-    }
-
-    .enter-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    .glowing-sun, .striped-sun {
-        width: 180px;
-        height: 180px;
-    }
-
-    .retro-monitor {
-        width: 100%;
-        max-width: 100%;
-        padding: 12px;
-        box-sizing: border-box;
-    }
-
-    .monitor-screen {
-        height: 240px;
-    }
-
-    .monitor-action-panel {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .cyber-btn {
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    .retrowave-car {
-        width: 150px;
-        height: 60px;
-        right: 5%;
-        bottom: 15%;
-    }
+    box-shadow: 0 0 20px #ff6600 !important;
 }
