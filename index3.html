@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sunset Terminal - Android Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="dashboard-header">
+        <h2>Arcade Monitor</h2>
+        <nav class="nav-tabs">
+            <button class="tab-btn" onclick="window.location.href='index.html'">Main</button>
+            <button class="tab-btn" onclick="window.location.href='index2.html'">City View</button>
+            <button class="tab-btn active" onclick="window.location.href='index3.html'">Terminal</button>
+        </nav>
+    </header>
+
+    <div class="dashboard-content">
+        <div class="retro-monitor">
+            <div class="monitor-screen">
+                <div class="scanlines"></div>
+                <div class="screen-content">
+                    <div class="terminal-header">SUNSET_OS v3.5 // ANDROID_TERM</div>
+                    <div class="preview-viewport">
+                        <div class="placeholder-art">
+                            <div class="retro-sun-mini"></div>
+                            <div class="retro-grid-mini"></div>
+                        </div>
+                        <div id="previewText">READY FOR INPUT...</div>
+                    </div>
+                    <div class="terminal-footer">> SYSTEM CHANNELS OPEN</div>
+                </div>
+            </div>
+            
+            <div class="monitor-controls">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div class="power-led"></div>
+                    <span class="brand-label">RETRO-VGA</span>
+                </div>
+                <span class="brand-label">ANDROID 2026</span>
+            </div>
+
+            <div class="monitor-action-panel">
+                <button class="cyber-card-btn upload-btn" onclick="appController.runTerminalCommand('DIAGNOSTICS')">Run Diagnostics</button>
+                <button class="cyber-card-btn mockup-btn" onclick="appController.runTerminalCommand('CLEAR_LOGS')">Clear Screen Logs</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
